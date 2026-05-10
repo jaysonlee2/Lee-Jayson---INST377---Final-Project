@@ -1,19 +1,17 @@
 {
-  "name": "inst377-week13-sampleapp-fa26",
+  "name": "unova-starter-finder",
   "version": "1.0.0",
-  "description": "INST377 - Week 13 Sample App",
-  "homepage": "https://github.com/anmoldash98/inst377-week13-sampleapp-fa26#readme",
+  "description": "INST377 Final Project - Pokémon Black and White Starter Recommendation App",
+  "homepage": "https://github.com/jaysonlee2/Lee-Jayson---INST377---Final-Project",
   "bugs": {
-    "url": "https://github.com/anmoldash98/inst377-week13-sampleapp-fa26/issues"
+    "url": "https://github.com/jaysonlee2/Lee-Jayson---INST377---Final-Project/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anmoldash98/inst377-week13-sampleapp-fa26.git"
+    "url": "git+https://github.com/jaysonlee2/Lee-Jayson---INST377---Final-Project.git"
   },
   "license": "ISC",
-  "author": "Anmol Dash",
-  "type": "commonjs",
-  "main": "index.js",
+  "author": "Jayson Lee",
   "scripts": {
     "start": "nodemon -e '*'",
     "test": "echo \"Error: no test specified\" && exit 1"

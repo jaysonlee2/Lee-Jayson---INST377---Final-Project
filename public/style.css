@@ -1,0 +1,196 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f3f4f6;
+  color: #222;
+}
+
+header {
+  background-color: #ffcb05;
+  color: #2a75bb;
+  text-align: center;
+  padding: 28px 15px;
+  border-bottom: 5px solid #2a75bb;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+}
+
+nav {
+  background-color: #2a75bb;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  padding: 14px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+main {
+  max-width: 1100px;
+  margin: 25px auto;
+  padding: 0 15px 35px;
+}
+
+.intro-box,
+.controls-box,
+.recommendation-box,
+.chart-box,
+.saved-box {
+  background-color: white;
+  padding: 22px;
+  margin-bottom: 22px;
+  border-radius: 12px;
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.12);
+}
+
+.section-title {
+  margin-top: 0;
+}
+
+#pointsRemaining {
+  background-color: #eef6ff;
+  border-left: 5px solid #2a75bb;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.slider-row {
+  display: grid;
+  grid-template-columns: 170px 1fr 40px;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.slider-row label {
+  font-weight: bold;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+.question-row {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.question-row label {
+  font-weight: bold;
+}
+
+.question-row select {
+  padding: 10px;
+  border: 2px solid #2a75bb;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+button {
+  background-color: #2a75bb;
+  color: white;
+  border: none;
+  padding: 11px 18px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+button:hover {
+  background-color: #1d5f99;
+}
+
+.recommendation-box {
+  border-left: 7px solid #ffcb05;
+}
+
+#recommendationText {
+  font-size: 1.1rem;
+  font-weight: bold;
+  line-height: 1.6;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  margin-bottom: 22px;
+}
+
+.pokemon-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  border-top: 6px solid #2a75bb;
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.12);
+}
+
+.pokemon-card img {
+  width: 170px;
+  height: 170px;
+  object-fit: contain;
+}
+
+.pokemon-card h3 {
+  font-size: 1.6rem;
+  margin: 10px 0;
+}
+
+.pokemon-card p {
+  margin: 7px 0;
+}
+
+.playstyle {
+  background-color: #eef6ff;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 12px;
+  line-height: 1.4;
+}
+
+.saved-choice {
+  background-color: #f9fafb;
+  border-left: 4px solid #2a75bb;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 8px;
+}
+
+footer {
+  text-align: center;
+  background-color: #ddd;
+  padding: 15px;
+}
+
+@media (max-width: 700px) {
+  .slider-row,
+  .question-row {
+    grid-template-columns: 1fr;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+}

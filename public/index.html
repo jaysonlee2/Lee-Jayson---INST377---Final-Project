@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Unova Starter Finder</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Unova Starter Finder</h1>
+      <p>Choose between Oshawott, Tepig, and Snivy using PokéAPI data.</p>
+    </header>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="help.html">Help</a>
+    </nav>
+
+    <main>
+      <section>
+        <h2 class="section-title">Compare Starters</h2>
+        <div id="pokemonContainer" class="card-container"></div>
+      </section>
+      <section class="intro-box">
+        <h2>Choose Your Playstyle</h2>
+        <p>
+          Move the sliders and answer the dropdown questions. The app will use
+          both your stat preferences and your playstyle answers to recommend a
+          starter.
+        </p>
+      </section>
+      <section class="controls-box">
+        <h2>Stat Adjustor</h2>
+
+        <p id="pointsRemaining">Points Remaining: <strong>25</strong></p>
+
+        <div class="slider-row">
+          <label for="speed">Speed</label>
+          <input type="range" id="speed" min="0" max="10" value="5" />
+          <span id="speedValue">5</span>
+        </div>
+
+        <div class="slider-row">
+          <label for="attack">Attack</label>
+          <input type="range" id="attack" min="0" max="10" value="5" />
+          <span id="attackValue">5</span>
+        </div>
+
+        <div class="slider-row">
+          <label for="defense">Defense</label>
+          <input type="range" id="defense" min="0" max="10" value="5" />
+          <span id="defenseValue">5</span>
+        </div>
+
+        <div class="slider-row">
+          <label for="specialAttack">Special Attack</label>
+          <input type="range" id="specialAttack" min="0" max="10" value="5" />
+          <span id="specialAttackValue">5</span>
+        </div>
+
+        <div class="slider-row">
+          <label for="specialDefense">Special Defense</label>
+          <input type="range" id="specialDefense" min="0" max="10" value="5" />
+          <span id="specialDefenseValue">5</span>
+        </div>
+
+        <h3>Playstyle Questions</h3>
+
+        <div class="question-row">
+          <label for="experienceLevel">How experienced are you?</label>
+          <select id="experienceLevel">
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="veteran">Veteran / Strategic Player</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <label for="battleStyle">What battle style do you prefer?</label>
+          <select id="battleStyle">
+            <option value="balanced">Balanced gameplay</option>
+            <option value="fast">Fast and strategic</option>
+            <option value="offensive">Strong offensive attacks</option>
+            <option value="defensive">Defensive / tanky</option>
+          </select>
+        </div>
+
+        <div class="question-row">
+          <label for="starterGoal">What matters most to you?</label>
+          <select id="starterGoal">
+            <option value="easy">Easy to use</option>
+            <option value="lateGame">Strong late-game potential</option>
+            <option value="power">Raw power</option>
+            <option value="design">Cool design/personality</option>
+          </select>
+        </div>
+
+        <div class="button-row">
+          <button id="recommendBtn">Get Recommendation</button>
+          <button id="saveBtn">Save Choice</button>
+          <button id="resetBtn">Reset</button>
+        </div>
+      </section>
+
+      <section class="recommendation-box">
+        <h2>Recommended Starter</h2>
+        <p id="recommendationText">
+          Click the button to get your recommendation.
+        </p>
+      </section>
+
+      <section class="chart-box">
+        <h2>Starter Stat Chart</h2>
+        <canvas id="starterChart"></canvas>
+      </section>
+
+      <section class="saved-box">
+        <h2>Saved Choices</h2>
+        <button id="loadChoicesBtn">Load Saved Choices</button>
+        <div id="savedChoices"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Data from PokéAPI | Saved with Supabase</p>
+    </footer>
+  </body>
+</html>

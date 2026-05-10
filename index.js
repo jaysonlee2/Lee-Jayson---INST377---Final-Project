@@ -1,69 +1,106 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const supabaseClient = require('@supabase/supabase-js');
-const { isValidStateAbbreviation } = require('usa-state-validator');
-const dotenv = require('dotenv');
+const express = require("express");
+const bodyParser = require("body-parser");
+const supabaseClient = require("@supabase/supabase-js");
+const dotenv = require("dotenv");
 
 const app = express();
 const port = 3000;
+
 dotenv.config();
 
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + "/public"));
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
 
-app.get('/', (req, res) => {
-  res.sendFile('public/Customers.html', { root: __dirname });
+// Home page
+app.get("/", (req, res) => {
+  res.sendFile("public/index.html", { root: __dirname });
 });
 
-app.get('/customers', async (req, res) => {
-  console.log('Attempting to get all customers!');
+// 1. External API endpoint: gets Pokemon data from PokéAPI
+app.get("/pokemon/:name", async (req, res) => {
+  const pokemonName = req.params.name.toLowerCase();
 
-  const { data, error } = await supabase.from('customer').select();
+  try {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${pokemonName}`,
+    );
+
+    if (!response.ok) {
+      res.status(404).json({ message: "Pokemon not found" });
+      return;
+    }
+
+    const pokemon = await response.json();
+
+    const stats = {};
+    pokemon.stats.forEach((item) => {
+      stats[item.stat.name] = item.base_stat;
+    });
+
+    const cleanedPokemon = {
+      name: pokemon.name,
+      image:
+        pokemon.sprites.other["official-artwork"].front_default ||
+        pokemon.sprites.front_default,
+      types: pokemon.types.map((type) => type.type.name),
+      stats: {
+        speed: stats.speed,
+        attack: stats.attack,
+        defense: stats.defense,
+        specialAttack: stats["special-attack"],
+        specialDefense: stats["special-defense"],
+      },
+    };
+
+    res.json(cleanedPokemon);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error getting Pokemon data" });
+  }
+});
+
+// 2. Database GET endpoint: gets saved starter choices
+app.get("/choices", async (req, res) => {
+  const { data, error } = await supabase.from("starter_choices").select();
 
   if (error) {
-    console.log(`Error: ${error}`);
-    res.statusCode = 500;
-    res.send(error);
+    console.log(error);
+    res.status(500).json(error);
   } else {
-    console.log('Recieved Data:', data.length);
     res.json(data);
   }
 });
 
-app.post('/customer', async (req, res) => {
-  console.log('Adding Customer');
-  console.log(`Request: ${JSON.stringify(req.body)}`);
-
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const state = req.body.state;
-
-  if (!isValidStateAbbreviation(state)) {
-    console.log(`State: ${state} is invalid`);
-    res.statusCode = 400;
-    res.json({
-      message: `${state} is not a valid 2 Letter Abbreviation for State`,
-    });
-    return;
-  }
+// 3. Database POST endpoint: saves a starter choice
+app.post("/choice", async (req, res) => {
+  const {
+    starter,
+    speed_weight,
+    attack_weight,
+    defense_weight,
+    special_attack_weight,
+    special_defense_weight,
+  } = req.body;
 
   const { data, error } = await supabase
-    .from('customer')
+    .from("starter_choices")
     .insert({
-      customer_first_name: firstName,
-      customer_last_name: lastName,
-      customer_state: state,
+      starter: starter,
+      speed_weight: speed_weight,
+      attack_weight: attack_weight,
+      defense_weight: defense_weight,
+      special_attack_weight: special_attack_weight,
+      special_defense_weight: special_defense_weight,
     })
     .select();
 
   if (error) {
-    console.log(`Error: ${error}`);
-    res.statusCode = 500;
-    res.send(error);
+    console.log(error);
+    res.status(500).json(error);
   } else {
     res.json(data);
   }
