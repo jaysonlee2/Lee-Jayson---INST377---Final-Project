@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadTcgCards() {
   const container = document.getElementById("tcgCardContainer");
+
   container.innerHTML = "";
 
   try {
@@ -16,7 +17,7 @@ async function loadTcgCards() {
 
       const cards = await response.json();
 
-      cards.slice(0, 4).forEach((card) => {
+      cards.forEach((card) => {
         if (!card.image) return;
 
         const slide = document.createElement("div");
@@ -34,25 +35,39 @@ async function loadTcgCards() {
     }
 
     new Swiper(".starterCardSwiper", {
-      slidesPerView: 1,
+      slidesPerView: 2,
       spaceBetween: 20,
       loop: true,
+
       pagination: {
         el: ".swiper-pagination",
         clickable: true,
       },
+
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
       },
+
       breakpoints: {
-        700: {
-          slidesPerView: 3,
+        600: {
+          slidesPerView: 2,
+        },
+
+        900: {
+          slidesPerView: 4,
+        },
+
+        1200: {
+          slidesPerView: 5,
         },
       },
     });
   } catch (error) {
     console.error(error);
-    container.innerHTML = "<p>Could not load TCG cards.</p>";
+
+    container.innerHTML = `
+      <p>Could not load TCG cards.</p>
+    `;
   }
 }
