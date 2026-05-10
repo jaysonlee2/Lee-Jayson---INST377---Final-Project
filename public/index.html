@@ -125,14 +125,32 @@
         <h2>Starter Stat Chart</h2>
         <canvas id="starterChart"></canvas>
       </section>
-
       <section class="saved-box">
         <h2>Saved Choices</h2>
         <button id="loadChoicesBtn">Load Saved Choices</button>
         <div id="savedChoices"></div>
       </section>
-    </main>
+      <section class="card-carousel-box">
+        <h2>Starter Trading Cards</h2>
+        <p>
+          Swipe through real Pokémon TCG cards for Oshawott, Tepig, and Snivy.
+        </p>
 
+        <div class="swiper starterCardSwiper">
+          <div class="swiper-wrapper" id="tcgCardContainer"></div>
+
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </section>
+    </main>
+    <script src="cards.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <footer>
       <p>Data from PokéAPI | Saved with Supabase</p>
     </footer>

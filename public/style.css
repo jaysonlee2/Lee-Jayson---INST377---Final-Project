@@ -317,3 +317,50 @@ footer {
     font-size: 2rem;
   }
 }
+.card-carousel-box {
+  background: linear-gradient(180deg, #ffffff, #f3f4f6);
+  padding: 24px;
+  margin-bottom: 24px;
+  border-radius: 18px;
+  border: 4px solid #111827;
+  box-shadow: 0 8px 0 #111827;
+}
+
+.card-carousel-box h2 {
+  margin-top: 0;
+  text-transform: uppercase;
+}
+
+.starterCardSwiper {
+  width: 100%;
+  padding: 25px 0 45px;
+}
+
+.tcg-card {
+  background: white;
+  border: 4px solid #111827;
+  border-radius: 16px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 6px 0 #111827;
+}
+
+.tcg-card img {
+  width: 220px;
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.tcg-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #ef4444;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ef4444;
+}
