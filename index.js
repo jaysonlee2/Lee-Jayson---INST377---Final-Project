@@ -106,6 +106,10 @@ app.post("/choice", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`App is available on port: ${port}`);
-});
+module.exports = app;
+
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => {
+    console.log(`App is available on port: ${port}`);
+  });
+}
