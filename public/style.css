@@ -3,14 +3,29 @@ body {
   font-family: "Trebuchet MS", Arial, sans-serif;
   background:
     radial-gradient(circle at top, rgba(255, 255, 255, 0.9), transparent 35%),
-    linear-gradient(180deg, #ef4444 0%, #f87171 35%, #f8fafc 36%, #ffffff 70%, #111827 100%);
+    linear-gradient(
+      180deg,
+      #ef4444 0%,
+      #f87171 35%,
+      #f8fafc 36%,
+      #ffffff 70%,
+      #111827 100%
+    );
   color: #111827;
 }
 
 header {
   margin: 20px auto;
   max-width: 950px;
-  background: linear-gradient(135deg, #ef4444, #991b1b 45%, #111827 46%, #111827 54%, #f8fafc 55%, #ffffff);
+  background: linear-gradient(
+    135deg,
+    #ef4444,
+    #991b1b 45%,
+    #111827 46%,
+    #111827 54%,
+    #f8fafc 55%,
+    #ffffff
+  );
   color: white;
   text-align: center;
   padding: 22px;
@@ -104,7 +119,12 @@ main {
 .pokemon-card {
   position: relative;
   background:
-    linear-gradient(180deg, rgba(239, 68, 68, 0.18), rgba(255, 255, 255, 0.95) 35%, rgba(17, 24, 39, 0.08)),
+    linear-gradient(
+      180deg,
+      rgba(239, 68, 68, 0.18),
+      rgba(255, 255, 255, 0.95) 35%,
+      rgba(17, 24, 39, 0.08)
+    ),
     #ffffff;
   padding: 22px;
   border-radius: 20px;
@@ -127,7 +147,12 @@ main {
   transform: translateX(-50%);
   width: 190px;
   height: 260px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.2), transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.95),
+    rgba(255, 255, 255, 0.2),
+    transparent 70%
+  );
   clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
   z-index: 0;
 }
