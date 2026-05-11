@@ -320,6 +320,7 @@ async function saveChoice() {
     defense_weight: weights.defense,
     special_attack_weight: weights.specialAttack,
     special_defense_weight: weights.specialDefense,
+    saved_at: new Date(),
   };
 
   try {
@@ -357,9 +358,12 @@ async function loadSavedChoices() {
       return;
     }
 
-    choices.slice(0, 5).forEach((choice) => {
-      savedChoicesDiv.appendChild(createSavedChoiceCard(choice));
-    });
+    choices
+      .reverse()
+      .slice(0, 5)
+      .forEach((choice) => {
+        savedChoicesDiv.appendChild(createSavedChoiceCard(choice));
+      });
   } catch (error) {
     console.error(error);
     savedChoicesDiv.innerHTML = `<p>Could not load saved choices.</p>`;
@@ -370,8 +374,12 @@ function createSavedChoiceCard(choice) {
   const div = document.createElement("div");
   div.classList.add("saved-choice");
 
+  const savedDate = new Date(choice.saved_at).toLocaleString();
+
   div.innerHTML = `
     <p><strong>Starter:</strong> ${choice.starter}</p>
+    <p><strong>Saved:</strong> ${savedDate}</p>
+
     <p><strong>Speed Weight:</strong> ${choice.speed_weight}</p>
     <p><strong>Attack Weight:</strong> ${choice.attack_weight}</p>
     <p><strong>Defense Weight:</strong> ${choice.defense_weight}</p>
