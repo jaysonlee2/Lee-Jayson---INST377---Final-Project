@@ -311,7 +311,6 @@ async function saveChoice() {
     }
 
     alert("Choice saved!");
-    loadSavedChoices();
   } catch (error) {
     console.error(error);
     alert("Could not save choice.");
