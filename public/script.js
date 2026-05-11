@@ -281,12 +281,9 @@ function displayRecommendation(bestPokemon, bestReasons, weights) {
   const recommendedImage = document.getElementById("recommendedPokemonImage");
 
   const pokemonImages = {
-    oshawott:
-      "https://drive.google.com/uc?export=view&id=10gsr9Ku5zf5hogIipnxJK8Q6zvrWDlpx",
-    tepig:
-      "https://drive.google.com/uc?export=view&id=1BYhfOsuYqYzshKDP7ELO463ULlRsooeS",
-    snivy:
-      "https://drive.google.com/uc?export=view&id=1TXkRmXbvCFAY4TboicEd38Dju7BTRWhI",
+    oshawott: "oshawottFPI.jpeg",
+    tepig: "tepigFPI.jpeg",
+    snivy: "snivyFPI.jpeg",
   };
 
   recommendedImage.src = pokemonImages[bestPokemon.name.toLowerCase()];
