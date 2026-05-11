@@ -13,85 +13,40 @@ body {
     );
   color: #111827;
 }
+.top-header {
+  background: #111827;
 
-.hero-header {
-  margin: 20px auto;
-  max-width: 1200px;
-  min-height: 420px;
+  padding: 20px 35px;
 
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("bg.jpeg");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  color: white;
-  border: 5px solid #111827;
-  border-radius: 18px;
-  box-shadow: 0 8px 0 #111827;
-
-  position: relative;
-  overflow: hidden;
-
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeSlideIn 1s ease forwards;
-}
-
-.hero-header {
-  margin: 20px auto;
-  max-width: 1200px;
-  min-height: 420px;
-
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("bg.jpeg");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  border: 5px solid #111827;
-  border-radius: 24px;
-  box-shadow: 0 8px 0 #111827;
-
-  position: relative;
-  overflow: hidden;
-
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeSlideIn 1s ease forwards;
-}
-
-.hero-top-left {
-  position: absolute;
-  top: 35px;
-  left: 35px;
+  border-bottom: 4px solid #ef4444;
 
   display: flex;
   align-items: center;
-  gap: 24px;
 }
 
-.hero-title {
+.top-left-brand {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.top-left-brand h1 {
   margin: 0;
 
-  font-size: 5rem;
+  font-size: 1.8rem;
   font-weight: 900;
-  letter-spacing: 4px;
+  letter-spacing: 2px;
 
-  color: #ffcb05;
-
-  text-shadow:
-    5px 5px 0 #2a75bb,
-    8px 8px 0 rgba(0, 0, 0, 0.6);
+  color: white;
 
   text-transform: uppercase;
+
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
 }
 
 .pokeball-icon {
-  width: 80px;
-  height: 80px;
+  width: 55px;
+  height: 55px;
 
   border-radius: 50%;
 
@@ -105,13 +60,11 @@ body {
     #ffffff 100%
   );
 
-  border: 6px solid #111827;
+  border: 5px solid white;
 
   position: relative;
 
-  box-shadow:
-    0 5px 0 rgba(0, 0, 0, 0.6),
-    inset 0 0 12px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.5);
 }
 
 .pokeball-icon::after {
@@ -119,12 +72,12 @@ body {
 
   position: absolute;
 
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
 
   background: white;
 
-  border: 5px solid #111827;
+  border: 4px solid #111827;
   border-radius: 50%;
 
   top: 50%;
@@ -133,14 +86,32 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.bw-logo {
-  width: 280px;
-  max-width: 90%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+.hero-image-section {
+  width: 100%;
+  overflow: hidden;
+
+  border-bottom: 5px solid #111827;
+
+  opacity: 0;
+  transform: translateY(20px);
+
+  animation: fadeSlideIn 1s ease forwards;
 }
 
+.hero-image-section img {
+  width: 100%;
+  height: 420px;
+
+  object-fit: cover;
+  display: block;
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 nav {
   background: linear-gradient(90deg, #991b1b, #ef4444, #111827);
   display: flex;
