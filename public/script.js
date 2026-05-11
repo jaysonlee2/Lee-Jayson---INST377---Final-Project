@@ -40,8 +40,11 @@ function setupEventListeners() {
   document
     .getElementById("recommendBtn")
     .addEventListener("click", calculateRecommendation);
+
   document.getElementById("saveBtn").addEventListener("click", saveChoice);
+
   document.getElementById("resetBtn").addEventListener("click", resetSliders);
+
   document
     .getElementById("loadChoicesBtn")
     .addEventListener("click", loadSavedChoices);
@@ -286,89 +289,91 @@ function displayRecommendation(bestPokemon, bestReasons, weights) {
       "https://drive.google.com/uc?export=view&id=1TXkRmXbvCFAY4TboicEd38Dju7BTRWhI",
   };
 
-  recommendedImage.src = pokemonImages[bestPokemon.name];
+  recommendedImage.src = pokemonImages[bestPokemon.name.toLowerCase()];
+  recommendedImage.alt = capitalize(bestPokemon.name);
   recommendedImage.style.display = "block";
+}
 
-  function getStrongestPreference(weights) {
-    let strongest = "speed";
-    let highestValue = weights.speed;
+function getStrongestPreference(weights) {
+  let strongest = "speed";
+  let highestValue = weights.speed;
 
-    Object.keys(weights).forEach((key) => {
-      if (weights[key] > highestValue) {
-        strongest = key;
-        highestValue = weights[key];
-      }
-    });
+  Object.keys(weights).forEach((key) => {
+    if (weights[key] > highestValue) {
+      strongest = key;
+      highestValue = weights[key];
+    }
+  });
 
-    return statLabels[strongest];
+  return statLabels[strongest];
+}
+
+async function saveChoice() {
+  if (!recommendedPokemon) {
+    alert("Get a recommendation first.");
+    return;
   }
 
-  async function saveChoice() {
-    if (!recommendedPokemon) {
-      alert("Get a recommendation first.");
+  const weights = getWeights();
+
+  const choiceData = {
+    starter: capitalize(recommendedPokemon.name),
+    speed_weight: weights.speed,
+    attack_weight: weights.attack,
+    defense_weight: weights.defense,
+    special_attack_weight: weights.specialAttack,
+    special_defense_weight: weights.specialDefense,
+  };
+
+  try {
+    const response = await fetch("/choice", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(choiceData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to save.");
+    }
+
+    alert("Choice saved!");
+  } catch (error) {
+    console.error(error);
+    alert("Could not save choice.");
+  }
+}
+
+async function loadSavedChoices() {
+  const savedChoicesDiv = document.getElementById("savedChoices");
+  savedChoicesDiv.innerHTML = `<p>Loading saved choices...</p>`;
+
+  try {
+    const response = await fetch("/choices");
+    const choices = await response.json();
+
+    savedChoicesDiv.innerHTML = "";
+
+    if (choices.length === 0) {
+      savedChoicesDiv.innerHTML = `<p>No saved choices yet.</p>`;
       return;
     }
 
-    const weights = getWeights();
-
-    const choiceData = {
-      starter: capitalize(recommendedPokemon.name),
-      speed_weight: weights.speed,
-      attack_weight: weights.attack,
-      defense_weight: weights.defense,
-      special_attack_weight: weights.specialAttack,
-      special_defense_weight: weights.specialDefense,
-    };
-
-    try {
-      const response = await fetch("/choice", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(choiceData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to save.");
-      }
-
-      alert("Choice saved!");
-    } catch (error) {
-      console.error(error);
-      alert("Could not save choice.");
-    }
+    choices.slice(0, 5).forEach((choice) => {
+      savedChoicesDiv.appendChild(createSavedChoiceCard(choice));
+    });
+  } catch (error) {
+    console.error(error);
+    savedChoicesDiv.innerHTML = `<p>Could not load saved choices.</p>`;
   }
+}
 
-  async function loadSavedChoices() {
-    const savedChoicesDiv = document.getElementById("savedChoices");
-    savedChoicesDiv.innerHTML = `<p>Loading saved choices...</p>`;
+function createSavedChoiceCard(choice) {
+  const div = document.createElement("div");
+  div.classList.add("saved-choice");
 
-    try {
-      const response = await fetch("/choices");
-      const choices = await response.json();
-
-      savedChoicesDiv.innerHTML = "";
-
-      if (choices.length === 0) {
-        savedChoicesDiv.innerHTML = `<p>No saved choices yet.</p>`;
-        return;
-      }
-
-      choices.slice(0, 5).forEach((choice) => {
-        savedChoicesDiv.appendChild(createSavedChoiceCard(choice));
-      });
-    } catch (error) {
-      console.error(error);
-      savedChoicesDiv.innerHTML = `<p>Could not load saved choices.</p>`;
-    }
-  }
-
-  function createSavedChoiceCard(choice) {
-    const div = document.createElement("div");
-    div.classList.add("saved-choice");
-
-    div.innerHTML = `
+  div.innerHTML = `
     <p><strong>Starter:</strong> ${choice.starter}</p>
     <p><strong>Speed Weight:</strong> ${choice.speed_weight}</p>
     <p><strong>Attack Weight:</strong> ${choice.attack_weight}</p>
@@ -377,79 +382,82 @@ function displayRecommendation(bestPokemon, bestReasons, weights) {
     <p><strong>Special Defense Weight:</strong> ${choice.special_defense_weight}</p>
   `;
 
-    return div;
+  return div;
+}
+
+function updateSliderValues() {
+  sliderIds.forEach((id) => {
+    document.getElementById(`${id}Value`).textContent =
+      document.getElementById(id).value;
+  });
+}
+
+function resetSliders() {
+  sliderIds.forEach((id) => {
+    document.getElementById(id).value = 5;
+  });
+
+  document.getElementById("experienceLevel").value = "beginner";
+  document.getElementById("battleStyle").value = "balanced";
+  document.getElementById("starterGoal").value = "easy";
+
+  updateSliderValues();
+  updatePointsRemaining();
+
+  recommendedPokemon = null;
+
+  document.getElementById("recommendationText").textContent =
+    "Click the button to get your recommendation.";
+
+  const recommendedImage = document.getElementById("recommendedPokemonImage");
+  recommendedImage.src = "";
+  recommendedImage.style.display = "none";
+
+  document.getElementById("savedChoices").innerHTML = "";
+}
+
+function buildChart() {
+  const chartCanvas = document.getElementById("starterChart");
+
+  if (!chartCanvas) {
+    return;
   }
 
-  function updateSliderValues() {
-    sliderIds.forEach((id) => {
-      document.getElementById(`${id}Value`).textContent =
-        document.getElementById(id).value;
-    });
+  const labels = ["Speed", "Attack", "Defense", "Sp. Attack", "Sp. Defense"];
+
+  const datasets = pokemonData.map((pokemon) => ({
+    label: capitalize(pokemon.name),
+    data: [
+      pokemon.stats.speed,
+      pokemon.stats.attack,
+      pokemon.stats.defense,
+      pokemon.stats.specialAttack,
+      pokemon.stats.specialDefense,
+    ],
+  }));
+
+  if (starterChart) {
+    starterChart.destroy();
   }
 
-  function resetSliders() {
-    sliderIds.forEach((id) => {
-      document.getElementById(id).value = 5;
-    });
-
-    document.getElementById("experienceLevel").value = "beginner";
-    document.getElementById("battleStyle").value = "balanced";
-    document.getElementById("starterGoal").value = "easy";
-
-    updateSliderValues();
-    updatePointsRemaining();
-
-    recommendedPokemon = null;
-
-    document.getElementById("recommendationText").textContent =
-      "Click the button to get your recommendation.";
-
-    document.getElementById("savedChoices").innerHTML = "";
-  }
-
-  function buildChart() {
-    const chartCanvas = document.getElementById("starterChart");
-
-    if (!chartCanvas) {
-      return;
-    }
-
-    const labels = ["Speed", "Attack", "Defense", "Sp. Attack", "Sp. Defense"];
-
-    const datasets = pokemonData.map((pokemon) => ({
-      label: capitalize(pokemon.name),
-      data: [
-        pokemon.stats.speed,
-        pokemon.stats.attack,
-        pokemon.stats.defense,
-        pokemon.stats.specialAttack,
-        pokemon.stats.specialDefense,
-      ],
-    }));
-
-    if (starterChart) {
-      starterChart.destroy();
-    }
-
-    starterChart = new Chart(chartCanvas, {
-      type: "bar",
-      data: {
-        labels,
-        datasets,
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: "Starter Pokémon Stat Comparison",
-          },
+  starterChart = new Chart(chartCanvas, {
+    type: "bar",
+    data: {
+      labels,
+      datasets,
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: "Starter Pokémon Stat Comparison",
         },
       },
-    });
-  }
+    },
+  });
+}
 
-  function capitalize(word) {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
 }
