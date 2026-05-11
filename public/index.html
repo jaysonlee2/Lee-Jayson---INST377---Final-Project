@@ -29,10 +29,6 @@
     </nav>
 
     <main>
-      <section>
-        <h2 class="section-title">Compare Starters</h2>
-        <div id="pokemonContainer" class="card-container"></div>
-      </section>
       <section class="intro-box">
         <h2>Choose Your Playstyle</h2>
         <p>
@@ -41,6 +37,19 @@
           starter.
         </p>
       </section>
+
+      <section class="comparison-layout">
+        <div class="pokemon-side">
+          <h2 class="section-title">Compare Starters</h2>
+          <div id="pokemonContainer" class="card-container"></div>
+        </div>
+
+        <div class="chart-box">
+          <h2>Starter Stat Chart</h2>
+          <canvas id="starterChart"></canvas>
+        </div>
+      </section>
+
       <section class="controls-box">
         <h2>Stat Adjustor</h2>
 
@@ -111,25 +120,25 @@
           <button id="recommendBtn">Get Recommendation</button>
           <button id="saveBtn">Save Choice</button>
           <button id="resetBtn">Reset</button>
+          <button id="loadChoicesBtn">Load Saved Choices</button>
+        </div>
+
+        <div class="recommendation-inside">
+          <h2>Recommended Starter</h2>
+
+          <p id="recommendationText">
+            Click the button to get your recommendation.
+          </p>
+
+          <div class="saved-helper">
+            <p>
+              Click “Load Saved Choices” to view your previously saved starter
+              recommendations.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section class="recommendation-box">
-        <h2>Recommended Starter</h2>
-        <p id="recommendationText">
-          Click the button to get your recommendation.
-        </p>
-      </section>
-
-      <section class="chart-box">
-        <h2>Starter Stat Chart</h2>
-        <canvas id="starterChart"></canvas>
-      </section>
-      <section class="saved-box">
-        <h2>Saved Choices</h2>
-        <button id="loadChoicesBtn">Load Saved Choices</button>
-        <div id="savedChoices"></div>
-      </section>
       <section class="card-carousel-box">
         <h2>Starter Trading Cards</h2>
         <p>
@@ -152,7 +161,8 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <footer>
-      <p>Data from PokéAPI | Saved with Supabase</p>
+      <p>Pokémon data provided by PokéAPI and TCGdex | Saved with Supabase |</p>
+      <p>© 2026 Jayson Lee | INST377 Final Project</p>
     </footer>
   </body>
 </html>

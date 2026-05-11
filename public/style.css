@@ -364,3 +364,52 @@ footer {
 .swiper-pagination-bullet-active {
   background: #ef4444;
 }
+.comparison-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+
+.comparison-layout .chart-box {
+  margin-bottom: 0;
+}
+
+.comparison-layout .card-container {
+  margin-bottom: 0;
+}
+
+.recommendation-inside {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 14px;
+  border: 3px solid #111827;
+  background: linear-gradient(180deg, #ffffff, #f3f4f6);
+}
+
+.recommendation-inside h2 {
+  margin-top: 0;
+}
+
+.saved-box button {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .comparison-layout {
+    grid-template-columns: 1fr;
+  }
+}
+.saved-helper {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 2px solid #d1d5db;
+}
+
+.saved-helper p {
+  margin: 0;
+  font-weight: bold;
+  color: #374151;
+  line-height: 1.5;
+}
