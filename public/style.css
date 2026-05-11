@@ -17,18 +17,18 @@ body {
 header {
   margin: 20px auto;
   max-width: 950px;
-  background: linear-gradient(
-    135deg,
-    #ef4444,
-    #991b1b 45%,
-    #111827 46%,
-    #111827 54%,
-    #f8fafc 55%,
-    #ffffff
-  );
+
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("bg.jpeg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   color: white;
   text-align: center;
-  padding: 22px;
+  padding: 40px 22px;
+
   border: 5px solid #111827;
   border-radius: 18px;
   box-shadow: 0 6px 0 #111827;
