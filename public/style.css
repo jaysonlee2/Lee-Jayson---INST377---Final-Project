@@ -40,7 +40,6 @@ header h1 {
   letter-spacing: 4px;
   text-transform: uppercase;
   color: #ffcb05;
-
   text-shadow:
     -4px -4px 0 #2a75bb,
     4px -4px 0 #2a75bb,
@@ -48,7 +47,6 @@ header h1 {
     4px 4px 0 #2a75bb,
     0 0 18px rgba(255, 203, 5, 0.8),
     5px 5px 0 #000;
-
   font-weight: 900;
 }
 
@@ -101,9 +99,10 @@ main {
 
 .intro-box,
 .controls-box,
-.recommendation-box,
 .chart-box,
-.saved-box {
+.saved-box,
+.card-carousel-box,
+.pokemon-comparison-box {
   background: linear-gradient(180deg, #ffffff, #f3f4f6);
   padding: 24px;
   margin-bottom: 24px;
@@ -117,13 +116,15 @@ main {
   color: #111827;
   text-transform: uppercase;
   text-shadow: 2px 2px white;
+  margin-top: 0;
+  margin-bottom: 24px;
 }
 
 .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   gap: 24px;
-  margin-bottom: 28px;
+  margin-bottom: 0;
 }
 
 .pokemon-card {
@@ -276,8 +277,16 @@ button:hover {
   color: #111827;
 }
 
-.recommendation-box {
-  border-left: 10px solid #ef4444;
+.recommendation-inside {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 14px;
+  border: 3px solid #111827;
+  background: linear-gradient(180deg, #ffffff, #f3f4f6);
+}
+
+.recommendation-inside h2 {
+  margin-top: 0;
 }
 
 #recommendationText {
@@ -286,44 +295,25 @@ button:hover {
   line-height: 1.6;
 }
 
+.saved-helper {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 2px solid #d1d5db;
+}
+
+.saved-helper p {
+  margin: 0;
+  font-weight: bold;
+  color: #374151;
+  line-height: 1.5;
+}
+
 .saved-choice {
   background: linear-gradient(180deg, #ffffff, #f3f4f6);
   border-left: 6px solid #ef4444;
   padding: 12px;
   margin-top: 12px;
   border-radius: 10px;
-}
-
-footer {
-  text-align: center;
-  background: linear-gradient(90deg, #111827, #000000);
-  color: white;
-  padding: 16px;
-  border-top: 5px solid #ef4444;
-}
-
-@media (max-width: 700px) {
-  .slider-row,
-  .question-row {
-    grid-template-columns: 1fr;
-  }
-
-  nav {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  header h1 {
-    font-size: 2rem;
-  }
-}
-.card-carousel-box {
-  background: linear-gradient(180deg, #ffffff, #f3f4f6);
-  padding: 24px;
-  margin-bottom: 24px;
-  border-radius: 18px;
-  border: 4px solid #111827;
-  box-shadow: 0 8px 0 #111827;
 }
 
 .card-carousel-box h2 {
@@ -365,43 +355,26 @@ footer {
   background: #ef4444;
 }
 
-.recommendation-inside {
-  margin-top: 24px;
-  padding: 18px;
-  border-radius: 14px;
-  border: 3px solid #111827;
-  background: linear-gradient(180deg, #ffffff, #f3f4f6);
+footer {
+  text-align: center;
+  background: linear-gradient(90deg, #111827, #000000);
+  color: white;
+  padding: 16px;
+  border-top: 5px solid #ef4444;
 }
 
-.recommendation-inside h2 {
-  margin-top: 0;
-}
+@media (max-width: 700px) {
+  .slider-row,
+  .question-row {
+    grid-template-columns: 1fr;
+  }
 
-.saved-box button {
-  display: none;
-}
-.pokemon-comparison-box {
-  background: rgba(255, 248, 220, 0.95);
-  padding: 24px;
-  margin-bottom: 24px;
-  border-radius: 18px;
-  border: 4px solid #111827;
-  box-shadow: 0 8px 0 #111827;
-}
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
 
-.pokemon-comparison-box .section-title {
-  margin-top: 0;
-  margin-bottom: 24px;
-}
-.saved-helper {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 2px solid #d1d5db;
-}
-
-.saved-helper p {
-  margin: 0;
-  font-weight: bold;
-  color: #374151;
-  line-height: 1.5;
+  header h1 {
+    font-size: 2rem;
+  }
 }

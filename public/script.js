@@ -1,6 +1,21 @@
 const starters = ["oshawott", "tepig", "snivy"];
-
 const pointLimit = 25;
+
+const sliderIds = [
+  "speed",
+  "attack",
+  "defense",
+  "specialAttack",
+  "specialDefense",
+];
+
+const statLabels = {
+  speed: "Speed",
+  attack: "Attack",
+  defense: "Defense",
+  specialAttack: "Special Attack",
+  specialDefense: "Special Defense",
+};
 
 let pokemonData = [];
 let recommendedPokemon = null;
@@ -8,16 +23,13 @@ let starterChart = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchAllPokemon();
+  setupEventListeners();
+  updateSliderValues();
+  updatePointsRemaining();
+});
 
-  const sliders = [
-    "speed",
-    "attack",
-    "defense",
-    "specialAttack",
-    "specialDefense",
-  ];
-
-  sliders.forEach((sliderId) => {
+function setupEventListeners() {
+  sliderIds.forEach((sliderId) => {
     const slider = document.getElementById(sliderId);
 
     slider.addEventListener("input", () => {
@@ -28,18 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("recommendBtn")
     .addEventListener("click", calculateRecommendation);
-
   document.getElementById("saveBtn").addEventListener("click", saveChoice);
-
   document.getElementById("resetBtn").addEventListener("click", resetSliders);
-
   document
     .getElementById("loadChoicesBtn")
     .addEventListener("click", loadSavedChoices);
-
-  updateSliderValues();
-  updatePointsRemaining();
-});
+}
 
 async function fetchAllPokemon() {
   const container = document.getElementById("pokemonContainer");
@@ -91,41 +97,32 @@ function displayPokemonCards() {
 }
 
 function getPlaystyle(name) {
-  if (name === "oshawott") {
-    return "Balanced starter with solid overall stats. Good for players who want a simple and steady choice.";
-  }
+  const playstyles = {
+    oshawott:
+      "Balanced starter with solid overall stats. Good for players who want a simple and steady choice.",
+    tepig:
+      "Strong early-game and offensive starter. Good for beginners who want power.",
+    snivy:
+      "Fast and strategic starter for players who value speed and smarter play.",
+  };
 
-  if (name === "tepig") {
-    return "Strong early-game and offensive starter. Good for beginners who want power.";
-  }
-
-  if (name === "snivy") {
-    return "Fast and strategic starter for players who value speed and smarter play.";
-  }
-
-  return "Starter Pokémon.";
+  return playstyles[name] || "Starter Pokémon.";
 }
 
 function getWeights() {
-  return {
-    speed: Number(document.getElementById("speed").value),
-    attack: Number(document.getElementById("attack").value),
-    defense: Number(document.getElementById("defense").value),
-    specialAttack: Number(document.getElementById("specialAttack").value),
-    specialDefense: Number(document.getElementById("specialDefense").value),
-  };
+  const weights = {};
+
+  sliderIds.forEach((id) => {
+    weights[id] = Number(document.getElementById(id).value);
+  });
+
+  return weights;
 }
 
 function getTotalPoints() {
   const weights = getWeights();
 
-  return (
-    weights.speed +
-    weights.attack +
-    weights.defense +
-    weights.specialAttack +
-    weights.specialDefense
-  );
+  return sliderIds.reduce((total, id) => total + weights[id], 0);
 }
 
 function updatePointLimit(changedSlider) {
@@ -141,8 +138,7 @@ function updatePointLimit(changedSlider) {
 }
 
 function updatePointsRemaining() {
-  const total = getTotalPoints();
-  const remaining = pointLimit - total;
+  const remaining = pointLimit - getTotalPoints();
 
   document.getElementById("pointsRemaining").innerHTML =
     `Points Remaining: <strong>${remaining}</strong>`;
@@ -150,7 +146,6 @@ function updatePointsRemaining() {
 
 function calculateRecommendation() {
   const weights = getWeights();
-
   const experienceLevel = document.getElementById("experienceLevel").value;
   const battleStyle = document.getElementById("battleStyle").value;
   const starterGoal = document.getElementById("starterGoal").value;
@@ -160,102 +155,125 @@ function calculateRecommendation() {
   let bestReasons = [];
 
   pokemonData.forEach((pokemon) => {
-    let score =
-      pokemon.stats.speed * weights.speed +
-      pokemon.stats.attack * weights.attack +
-      pokemon.stats.defense * weights.defense +
-      pokemon.stats.specialAttack * weights.specialAttack +
-      pokemon.stats.specialDefense * weights.specialDefense;
+    const baseScore = calculateBaseScore(pokemon, weights);
+    const bonusResult = calculateBonusScore(
+      pokemon,
+      experienceLevel,
+      battleStyle,
+      starterGoal,
+    );
 
-    let reasons = [];
+    const finalScore = baseScore + bonusResult.bonus;
 
-    // Experience level bonuses
-    if (experienceLevel === "beginner" && pokemon.name === "tepig") {
-      score += 100;
-      reasons.push("Tepig is strong early-game and beginner-friendly");
-    }
-
-    if (experienceLevel === "intermediate" && pokemon.name === "oshawott") {
-      score += 80;
-      reasons.push(
-        "Oshawott is balanced and flexible for intermediate players",
-      );
-    }
-
-    if (experienceLevel === "veteran" && pokemon.name === "snivy") {
-      score += 100;
-      reasons.push("Snivy rewards strategic and experienced players");
-    }
-
-    // Battle style bonuses
-    if (battleStyle === "balanced" && pokemon.name === "oshawott") {
-      score += 140;
-      reasons.push("you chose balanced gameplay");
-    }
-
-    if (battleStyle === "fast" && pokemon.name === "snivy") {
-      score += 140;
-      reasons.push("you prefer fast and strategic gameplay");
-    }
-
-    if (battleStyle === "offensive" && pokemon.name === "tepig") {
-      score += 140;
-      reasons.push("you prefer strong offensive attacks");
-    }
-
-    if (
-      battleStyle === "defensive" &&
-      (pokemon.name === "snivy" || pokemon.name === "oshawott")
-    ) {
-      score += 90;
-      reasons.push("you value defensive play");
-    }
-
-    // Starter goal bonuses
-    if (starterGoal === "easy" && pokemon.name === "tepig") {
-      score += 100;
-      reasons.push("you want an easy starter with strong early-game power");
-    }
-
-    if (starterGoal === "lateGame" && pokemon.name === "snivy") {
-      score += 100;
-      reasons.push("you care about late-game potential");
-    }
-
-    if (starterGoal === "power" && pokemon.name === "tepig") {
-      score += 100;
-      reasons.push("you care about raw power");
-    }
-
-    if (starterGoal === "design") {
-      score += 20;
-      reasons.push("design and personality were part of your choice");
-    }
-
-    if (score > highestScore) {
-      highestScore = score;
+    if (finalScore > highestScore) {
+      highestScore = finalScore;
       bestPokemon = pokemon;
-      bestReasons = reasons;
+      bestReasons = bonusResult.reasons;
     }
   });
 
   recommendedPokemon = bestPokemon;
 
   if (bestPokemon) {
-    const topStat = getStrongestPreference(weights);
-
-    let reasonSentence = "";
-
-    if (bestReasons.length > 0) {
-      reasonSentence = bestReasons.join(", ");
-    } else {
-      reasonSentence =
-        "it had the best overall score based on your stat sliders";
-    }
-
-    document.getElementById("recommendationText").textContent =
-      `${capitalize(bestPokemon.name)} is your best starter match because ${reasonSentence}. Based on your sliders, ${topStat} also mattered most to you. Overall, ${capitalize(bestPokemon.name)} best matches your preferred playstyle and starter goals.`;
+    displayRecommendation(bestPokemon, bestReasons, weights);
   }
+}
+
+function calculateBaseScore(pokemon, weights) {
+  return (
+    pokemon.stats.speed * weights.speed +
+    pokemon.stats.attack * weights.attack +
+    pokemon.stats.defense * weights.defense +
+    pokemon.stats.specialAttack * weights.specialAttack +
+    pokemon.stats.specialDefense * weights.specialDefense
+  );
+}
+
+function calculateBonusScore(
+  pokemon,
+  experienceLevel,
+  battleStyle,
+  starterGoal,
+) {
+  let bonus = 0;
+  const reasons = [];
+
+  const name = pokemon.name;
+
+  if (experienceLevel === "beginner" && name === "tepig") {
+    bonus += 100;
+    reasons.push("Tepig is strong early-game and beginner-friendly");
+  }
+
+  if (experienceLevel === "intermediate" && name === "oshawott") {
+    bonus += 80;
+    reasons.push("Oshawott is balanced and flexible for intermediate players");
+  }
+
+  if (experienceLevel === "veteran" && name === "snivy") {
+    bonus += 100;
+    reasons.push("Snivy rewards strategic and experienced players");
+  }
+
+  if (battleStyle === "balanced" && name === "oshawott") {
+    bonus += 140;
+    reasons.push("you chose balanced gameplay");
+  }
+
+  if (battleStyle === "fast" && name === "snivy") {
+    bonus += 140;
+    reasons.push("you prefer fast and strategic gameplay");
+  }
+
+  if (battleStyle === "offensive" && name === "tepig") {
+    bonus += 140;
+    reasons.push("you prefer strong offensive attacks");
+  }
+
+  if (
+    battleStyle === "defensive" &&
+    (name === "snivy" || name === "oshawott")
+  ) {
+    bonus += 90;
+    reasons.push("you value defensive play");
+  }
+
+  if (starterGoal === "easy" && name === "tepig") {
+    bonus += 100;
+    reasons.push("you want an easy starter with strong early-game power");
+  }
+
+  if (starterGoal === "lateGame" && name === "snivy") {
+    bonus += 100;
+    reasons.push("you care about late-game potential");
+  }
+
+  if (starterGoal === "power" && name === "tepig") {
+    bonus += 100;
+    reasons.push("you care about raw power");
+  }
+
+  if (starterGoal === "design") {
+    bonus += 20;
+    reasons.push("design and personality were part of your choice");
+  }
+
+  return {
+    bonus,
+    reasons,
+  };
+}
+
+function displayRecommendation(bestPokemon, bestReasons, weights) {
+  const topStat = getStrongestPreference(weights);
+
+  const reasonSentence =
+    bestReasons.length > 0
+      ? bestReasons.join(", ")
+      : "it had the best overall score based on your stat sliders";
+
+  document.getElementById("recommendationText").textContent =
+    `${capitalize(bestPokemon.name)} is your best starter match because ${reasonSentence}. Based on your sliders, ${topStat} also mattered most to you. Overall, ${capitalize(bestPokemon.name)} best matches your preferred playstyle and starter goals.`;
 }
 
 function getStrongestPreference(weights) {
@@ -269,15 +287,7 @@ function getStrongestPreference(weights) {
     }
   });
 
-  const labels = {
-    speed: "Speed",
-    attack: "Attack",
-    defense: "Defense",
-    specialAttack: "Special Attack",
-    specialDefense: "Special Defense",
-  };
-
-  return labels[strongest];
+  return statLabels[strongest];
 }
 
 async function saveChoice() {
@@ -319,7 +329,6 @@ async function saveChoice() {
 
 async function loadSavedChoices() {
   const savedChoicesDiv = document.getElementById("savedChoices");
-
   savedChoicesDiv.innerHTML = `<p>Loading saved choices...</p>`;
 
   try {
@@ -334,20 +343,7 @@ async function loadSavedChoices() {
     }
 
     choices.slice(0, 5).forEach((choice) => {
-      const div = document.createElement("div");
-
-      div.classList.add("saved-choice");
-
-      div.innerHTML = `
-        <p><strong>Starter:</strong> ${choice.starter}</p>
-        <p><strong>Speed Weight:</strong> ${choice.speed_weight}</p>
-        <p><strong>Attack Weight:</strong> ${choice.attack_weight}</p>
-        <p><strong>Defense Weight:</strong> ${choice.defense_weight}</p>
-        <p><strong>Special Attack Weight:</strong> ${choice.special_attack_weight}</p>
-        <p><strong>Special Defense Weight:</strong> ${choice.special_defense_weight}</p>
-      `;
-
-      savedChoicesDiv.appendChild(div);
+      savedChoicesDiv.appendChild(createSavedChoiceCard(choice));
     });
   } catch (error) {
     console.error(error);
@@ -355,29 +351,33 @@ async function loadSavedChoices() {
   }
 }
 
+function createSavedChoiceCard(choice) {
+  const div = document.createElement("div");
+  div.classList.add("saved-choice");
+
+  div.innerHTML = `
+    <p><strong>Starter:</strong> ${choice.starter}</p>
+    <p><strong>Speed Weight:</strong> ${choice.speed_weight}</p>
+    <p><strong>Attack Weight:</strong> ${choice.attack_weight}</p>
+    <p><strong>Defense Weight:</strong> ${choice.defense_weight}</p>
+    <p><strong>Special Attack Weight:</strong> ${choice.special_attack_weight}</p>
+    <p><strong>Special Defense Weight:</strong> ${choice.special_defense_weight}</p>
+  `;
+
+  return div;
+}
+
 function updateSliderValues() {
-  document.getElementById("speedValue").textContent =
-    document.getElementById("speed").value;
-
-  document.getElementById("attackValue").textContent =
-    document.getElementById("attack").value;
-
-  document.getElementById("defenseValue").textContent =
-    document.getElementById("defense").value;
-
-  document.getElementById("specialAttackValue").textContent =
-    document.getElementById("specialAttack").value;
-
-  document.getElementById("specialDefenseValue").textContent =
-    document.getElementById("specialDefense").value;
+  sliderIds.forEach((id) => {
+    document.getElementById(`${id}Value`).textContent =
+      document.getElementById(id).value;
+  });
 }
 
 function resetSliders() {
-  document.getElementById("speed").value = 5;
-  document.getElementById("attack").value = 5;
-  document.getElementById("defense").value = 5;
-  document.getElementById("specialAttack").value = 5;
-  document.getElementById("specialDefense").value = 5;
+  sliderIds.forEach((id) => {
+    document.getElementById(id).value = 5;
+  });
 
   document.getElementById("experienceLevel").value = "beginner";
   document.getElementById("battleStyle").value = "balanced";
@@ -390,6 +390,8 @@ function resetSliders() {
 
   document.getElementById("recommendationText").textContent =
     "Click the button to get your recommendation.";
+
+  document.getElementById("savedChoices").innerHTML = "";
 }
 
 function buildChart() {
@@ -401,18 +403,16 @@ function buildChart() {
 
   const labels = ["Speed", "Attack", "Defense", "Sp. Attack", "Sp. Defense"];
 
-  const datasets = pokemonData.map((pokemon) => {
-    return {
-      label: capitalize(pokemon.name),
-      data: [
-        pokemon.stats.speed,
-        pokemon.stats.attack,
-        pokemon.stats.defense,
-        pokemon.stats.specialAttack,
-        pokemon.stats.specialDefense,
-      ],
-    };
-  });
+  const datasets = pokemonData.map((pokemon) => ({
+    label: capitalize(pokemon.name),
+    data: [
+      pokemon.stats.speed,
+      pokemon.stats.attack,
+      pokemon.stats.defense,
+      pokemon.stats.specialAttack,
+      pokemon.stats.specialDefense,
+    ],
+  }));
 
   if (starterChart) {
     starterChart.destroy();
@@ -421,8 +421,8 @@ function buildChart() {
   starterChart = new Chart(chartCanvas, {
     type: "bar",
     data: {
-      labels: labels,
-      datasets: datasets,
+      labels,
+      datasets,
     },
     options: {
       responsive: true,
