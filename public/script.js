@@ -274,7 +274,6 @@ function displayRecommendation(bestPokemon, bestReasons, weights) {
 
   document.getElementById("recommendationText").textContent =
     `${capitalize(bestPokemon.name)} is your best starter match because ${reasonSentence}. Based on your sliders, ${topStat} also mattered most to you. Overall, ${capitalize(bestPokemon.name)} best matches your preferred playstyle and starter goals.`;
-  recommendationText.innerHTML = `${recommendedStarter} is your best starter match...`;
 
   const recommendedImage = document.getElementById("recommendedPokemonImage");
 
