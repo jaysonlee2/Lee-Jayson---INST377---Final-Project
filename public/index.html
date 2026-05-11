@@ -120,20 +120,34 @@
           <button id="loadChoicesBtn">Load Saved Choices</button>
         </div>
 
-        <div class="recommendation-inside">
-          <h2>Recommended Starter</h2>
+<div class="recommendation-inside">
+  <div class="recommendation-content">
+    
+    <div class="recommendation-text-side">
+      <h2>Recommended Starter</h2>
 
-          <p id="recommendationText">
-            Click "Get Recommendation" to get your recommendation.
-          </p>
+      <p id="recommendationText">
+        Click "Get Recommendation" to see which starter fits your stat preferences and playstyle answers. 
+      </p>
 
-          <div class="saved-helper">
-            <p>
-              Click “Load Saved Choices” to view your previously saved starter
-              recommendations. Only the 5 most recent choices will be shown.
-            </p>
-          </div>
+      <hr />
 
+      <p class="saved-description">
+        Click “Load Saved Choices” to view your previously saved starter
+        recommendations. Only the 5 most recent choices will be shown.
+      </p>
+    </div>
+
+    <div class="recommendation-image-side">
+      <img
+        id="recommendedPokemonImage"
+        src=""
+        alt="Recommended Pokémon"
+      />
+    </div>
+
+  </div>
+</div>
           <div id="savedChoices"></div>
         </div>
       </section>

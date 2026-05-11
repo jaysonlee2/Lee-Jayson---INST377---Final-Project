@@ -378,3 +378,28 @@ footer {
     font-size: 2rem;
   }
 }
+.recommendation-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.recommendation-text-side {
+  flex: 1;
+  min-width: 300px;
+}
+
+.recommendation-image-side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#recommendedPokemonImage {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}

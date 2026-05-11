@@ -274,6 +274,23 @@ function displayRecommendation(bestPokemon, bestReasons, weights) {
 
   document.getElementById("recommendationText").textContent =
     `${capitalize(bestPokemon.name)} is your best starter match because ${reasonSentence}. Based on your sliders, ${topStat} also mattered most to you. Overall, ${capitalize(bestPokemon.name)} best matches your preferred playstyle and starter goals.`;
+  recommendationText.innerHTML = `${recommendedStarter} is your best starter match...`;
+
+  const recommendedImage = document.getElementById("recommendedPokemonImage");
+
+  if (recommendedStarter === "Oshawott") {
+    recommendedImage.src =
+      "https://pbs.twimg.com/media/HH0Wgk9WMAMTtgo?format=jpg&name=medium";
+  }
+
+  if (recommendedStarter === "Tepig") {
+    recommendedImage.src =
+      "https://pbs.twimg.com/media/HH0Wgl9XMAQlNSg?format=jpg&name=medium";
+  }
+
+  if (recommendedStarter === "Snivy") {
+    recommendedImage.src = "https://pbs.twimg.com/media/HH0WglEXcAMC6j1.jpg";
+  }
 }
 
 function getStrongestPreference(weights) {
