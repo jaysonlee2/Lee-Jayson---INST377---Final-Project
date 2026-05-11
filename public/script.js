@@ -333,7 +333,7 @@ async function loadSavedChoices() {
       return;
     }
 
-    choices.forEach((choice) => {
+    choices.slice(0, 5).forEach((choice) => {
       const div = document.createElement("div");
 
       div.classList.add("saved-choice");
