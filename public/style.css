@@ -403,3 +403,9 @@ footer {
   object-fit: contain;
   image-rendering: pixelated;
 }
+#recommendedPokemonImage {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  display: none;
+}

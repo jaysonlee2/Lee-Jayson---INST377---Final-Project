@@ -277,19 +277,22 @@ function displayRecommendation(bestPokemon, bestReasons, weights) {
 
   const recommendedImage = document.getElementById("recommendedPokemonImage");
 
-  if (recommendedStarter === "Oshawott") {
+  if (bestPokemon.name === "oshawott") {
     recommendedImage.src =
-      "https://pbs.twimg.com/media/HH0Wgk9WMAMTtgo?format=jpg&name=medium";
+      "https://drive.google.com/uc?export=view&id=10gsr9Ku5zf5hogIipnxJK8Q6zvrWDlpx";
   }
 
-  if (recommendedStarter === "Tepig") {
+  if (bestPokemon.name === "tepig") {
     recommendedImage.src =
-      "https://pbs.twimg.com/media/HH0Wgl9XMAQlNSg?format=jpg&name=medium";
+      "https://drive.google.com/uc?export=view&id=1BYhfOsuYqYzshKDP7ELO463ULlRsooeS";
   }
 
-  if (recommendedStarter === "Snivy") {
-    recommendedImage.src = "https://pbs.twimg.com/media/HH0WglEXcAMC6j1.jpg";
+  if (bestPokemon.name === "snivy") {
+    recommendedImage.src =
+      "https://drive.google.com/uc?export=view&id=1TXkRmXbvCFAY4TboicEd38Dju7BTRWhI";
   }
+
+  recommendedImage.style.display = "block";
 }
 
 function getStrongestPreference(weights) {
