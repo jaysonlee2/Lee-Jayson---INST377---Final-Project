@@ -14,9 +14,10 @@ body {
   color: #111827;
 }
 
-header {
+.hero-header {
   margin: 20px auto;
-  max-width: 950px;
+  max-width: 1200px;
+  min-height: 420px;
 
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("bg.jpeg");
@@ -26,28 +27,59 @@ header {
   background-repeat: no-repeat;
 
   color: white;
-  text-align: center;
-  padding: 40px 22px;
-
   border: 5px solid #111827;
   border-radius: 18px;
-  box-shadow: 0 6px 0 #111827;
+  box-shadow: 0 8px 0 #111827;
+
+  position: relative;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideIn 1s ease forwards;
 }
 
-header h1 {
+.hero-top-left {
+  position: absolute;
+  top: 30px;
+  left: 35px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero-top-left h1 {
   margin: 0;
-  font-size: 4rem;
-  letter-spacing: 4px;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: #ffcb05;
-  text-shadow:
-    -4px -4px 0 #2a75bb,
-    4px -4px 0 #2a75bb,
-    -4px 4px 0 #2a75bb,
-    4px 4px 0 #2a75bb,
-    0 0 18px rgba(255, 203, 5, 0.8),
-    5px 5px 0 #000;
+  color: white;
+  text-shadow: 2px 2px 0 #000;
   font-weight: 900;
+}
+
+.pokeball-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(#ef4444 0 45%, #111827 45% 55%, #ffffff 55%);
+  border: 3px solid #111827;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #111827;
+  font-size: 0;
+  box-shadow: 0 3px 0 #000;
+}
+
+.pokeball-icon::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: white;
+  border: 3px solid #111827;
+  border-radius: 50%;
 }
 
 .bw-logo {
@@ -56,13 +88,6 @@ header h1 {
   margin-top: 10px;
   margin-bottom: 10px;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
-}
-
-header p {
-  margin-bottom: 0;
-  color: #ffffff;
-  font-weight: bold;
-  text-shadow: 2px 2px #000;
 }
 
 nav {
@@ -402,4 +427,43 @@ footer {
   height: 220px;
   object-fit: contain;
   display: none;
+}
+
+main,
+nav,
+footer {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: fadeSlideIn 0.9s ease forwards;
+}
+
+nav {
+  animation-delay: 0.15s;
+}
+
+main {
+  animation-delay: 0.3s;
+}
+
+footer {
+  animation-delay: 0.45s;
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+a,
+button,
+.pokemon-card,
+.tcg-card,
+.intro-box,
+.controls-box,
+.chart-box,
+.card-carousel-box,
+.pokemon-comparison-box {
+  transition: all 0.25s ease;
 }
