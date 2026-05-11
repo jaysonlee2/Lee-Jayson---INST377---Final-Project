@@ -29,6 +29,16 @@
     </nav>
 
     <main>
+      <section class="pokemon-comparison-box">
+        <h2 class="section-title">Compare Starters</h2>
+
+        <div id="pokemonContainer" class="card-container"></div>
+      </section>
+
+      <section class="chart-box">
+        <h2>Starter Stat Chart</h2>
+        <canvas id="starterChart"></canvas>
+      </section>
       <section class="intro-box">
         <h2>Choose Your Playstyle</h2>
         <p>
@@ -37,19 +47,6 @@
           starter.
         </p>
       </section>
-
-      <section class="comparison-layout">
-        <div class="pokemon-side">
-          <h2 class="section-title">Compare Starters</h2>
-          <div id="pokemonContainer" class="card-container"></div>
-        </div>
-
-        <div class="chart-box">
-          <h2>Starter Stat Chart</h2>
-          <canvas id="starterChart"></canvas>
-        </div>
-      </section>
-
       <section class="controls-box">
         <h2>Stat Adjustor</h2>
 
@@ -161,7 +158,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <footer>
-      <p>Pokémon data provided by PokéAPI and TCGdex | Saved with Supabase |</p>
+      <p>Pokémon data provided by PokéAPI and TCGdex | Saved with Supabase</p>
       <p>© 2026 Jayson Lee | INST377 Final Project</p>
     </footer>
   </body>
